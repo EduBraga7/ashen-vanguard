@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://skel_enemy_01"]
+
+[ext_resource type="Script" path="res://scripts/enemies/enemy.gd" id="1_enemy"]
+[ext_resource type="PackedScene" path="res://assets/models/enemy_skeleton.glb" id="2_mesh"]
+[ext_resource type="Script" path="res://scripts/fx/model_animator.gd" id="3_anim"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_skel"]
+radius = 0.35
+height = 1.6
+
+[node name="Skeleton" type="CharacterBody3D"]
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("1_enemy")
+display_name = "Esqueleto"
+max_health = 20
+move_speed = 2.4
+touch_damage = 8
+xp_tier = 0
+roast_chance = 0.03
+head_height = 1.8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("CapsuleShape3D_skel")
+
+[node name="Visuals" type="Node3D" parent="."]
+
+[node name="SkeletonModel" parent="Visuals" instance=ExtResource("2_mesh")]
+
+[node name="ModelAnimator" type="Node" parent="Visuals"]
+script = ExtResource("3_anim")

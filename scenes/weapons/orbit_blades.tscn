@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bw7eom7hbl1de"]
+
+[ext_resource type="Script" path="res://scripts/weapons/orbit_blades.gd" id="1_orbit"]
+
+[node name="OrbitBlades" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+script = ExtResource("1_orbit")

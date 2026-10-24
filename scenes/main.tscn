@@ -1,0 +1,56 @@
+[gd_scene load_steps=9 format=3 uid="uid://m41n_sc3n3_01"]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
+[ext_resource type="PackedScene" path="res://scenes/environment/ruined_bastion.tscn" id="2_bastion"]
+[ext_resource type="PackedScene" path="res://scenes/characters/knight.tscn" id="3_knight"]
+[ext_resource type="Script" path="res://scripts/top_down_camera.gd" id="4_camera"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="5_hud"]
+[ext_resource type="Script" path="res://scripts/managers/wave_manager.gd" id="6_wave"]
+
+[sub_resource type="Environment" id="Environment_main"]
+background_mode = 1
+background_color = Color(0.04, 0.05, 0.08, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.28, 0.32, 0.42, 1)
+ambient_light_energy = 0.9
+tonemap_mode = 3
+glow_enabled = true
+glow_intensity = 0.5
+glow_bloom = 0.2
+fog_enabled = true
+fog_light_color = Color(0.18, 0.22, 0.32, 1)
+fog_light_energy = 0.7
+fog_density = 0.015
+fog_height = 0.8
+fog_height_density = 1.0
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_main")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_main")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.906308, 0, 0.422618, 0.3462, 0.573576, -0.742416, -0.2424, 0.819152, 0.519842, 0, 18, 0)
+light_color = Color(0.82, 0.88, 1, 1)
+light_energy = 1.8
+shadow_enabled = true
+shadow_bias = 0.02
+shadow_blur = 0.5
+
+[node name="RuinedBastion" parent="." instance=ExtResource("2_bastion")]
+
+[node name="Knight" parent="." instance=ExtResource("3_knight")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="TopDownCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 16, 9)
+current = true
+script = ExtResource("4_camera")
+
+[node name="EnemyContainer" type="Node3D" parent="."]
+
+[node name="WaveManager" type="Node" parent="."]
+script = ExtResource("6_wave")
+
+[node name="HUD" parent="." instance=ExtResource("5_hud")]

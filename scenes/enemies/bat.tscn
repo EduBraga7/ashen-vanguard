@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://bat_enemy_01"]
+
+[ext_resource type="Script" path="res://scripts/enemies/enemy.gd" id="1_enemy"]
+[ext_resource type="PackedScene" path="res://assets/models/enemy_bat.glb" id="2_mesh"]
+[ext_resource type="Script" path="res://scripts/fx/model_animator.gd" id="3_anim"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_bat"]
+radius = 0.45
+
+[node name="Bat" type="CharacterBody3D"]
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("1_enemy")
+display_name = "Morcego Voraz"
+max_health = 10
+move_speed = 4.2
+touch_damage = 6
+xp_tier = 0
+roast_chance = 0.02
+head_height = 1.3
+weave_amount = 0.35
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
+shape = SubResource("SphereShape3D_bat")
+
+[node name="Visuals" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
+
+[node name="BatModel" parent="Visuals" instance=ExtResource("2_mesh")]
+
+[node name="ModelAnimator" type="Node" parent="Visuals"]
+script = ExtResource("3_anim")
+wing_flap_speed = 28.0
+wing_flap_degrees = 42.0

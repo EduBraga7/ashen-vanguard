@@ -1,0 +1,165 @@
+[gd_scene load_steps=12 format=3 uid="uid://rn_bstn_01"]
+
+[ext_resource type="Shader" path="res://assets/shaders/stone_floor.gdshader" id="1_floor_sh"]
+[ext_resource type="PackedScene" path="res://scenes/environment/torch_brazier.tscn" id="2_brazier"]
+[ext_resource type="PackedScene" path="res://assets/models/ruin_pillar.glb" id="3_pillar"]
+[ext_resource type="PackedScene" path="res://assets/models/rubble_pile.glb" id="4_rubble"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_floor"]
+render_priority = 0
+shader = ExtResource("1_floor_sh")
+shader_parameter/stone_color_1 = Color(0.38, 0.4, 0.44, 1)
+shader_parameter/stone_color_2 = Color(0.28, 0.3, 0.33, 1)
+shader_parameter/grout_color = Color(0.1, 0.11, 0.13, 1)
+shader_parameter/rune_color = Color(0.35, 0.7, 1, 1)
+shader_parameter/tile_scale = 0.5
+shader_parameter/grout_width = 0.05
+shader_parameter/roughness_val = 0.8
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_floor"]
+material = SubResource("ShaderMaterial_floor")
+size = Vector2(120, 120)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
+size = Vector3(120, 1, 120)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_masonry"]
+albedo_color = Color(0.25, 0.27, 0.32, 1)
+roughness = 0.88
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall_h"]
+material = SubResource("StandardMaterial3D_masonry")
+size = Vector3(72, 1.4, 1.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall_h"]
+size = Vector3(72, 1.4, 1.6)
+
+[sub_resource type="BoxMesh" id="BoxMesh_wall_v"]
+material = SubResource("StandardMaterial3D_masonry")
+size = Vector3(1.6, 1.4, 72)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wall_v"]
+size = Vector3(1.6, 1.4, 72)
+
+[node name="RuinedBastion" type="Node3D"]
+
+[node name="Floor" type="StaticBody3D" parent="."]
+collision_layer = 1
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+mesh = SubResource("PlaneMesh_floor")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_floor")
+
+[node name="PerimeterWalls" type="Node3D" parent="."]
+
+[node name="WallNorth" type="StaticBody3D" parent="PerimeterWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, -36)
+collision_layer = 1
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PerimeterWalls/WallNorth"]
+mesh = SubResource("BoxMesh_wall_h")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PerimeterWalls/WallNorth"]
+shape = SubResource("BoxShape3D_wall_h")
+
+[node name="WallSouth" type="StaticBody3D" parent="PerimeterWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 36)
+collision_layer = 1
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PerimeterWalls/WallSouth"]
+mesh = SubResource("BoxMesh_wall_h")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PerimeterWalls/WallSouth"]
+shape = SubResource("BoxShape3D_wall_h")
+
+[node name="WallEast" type="StaticBody3D" parent="PerimeterWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36, 0.7, 0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PerimeterWalls/WallEast"]
+mesh = SubResource("BoxMesh_wall_v")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PerimeterWalls/WallEast"]
+shape = SubResource("BoxShape3D_wall_v")
+
+[node name="WallWest" type="StaticBody3D" parent="PerimeterWalls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0.7, 0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PerimeterWalls/WallWest"]
+mesh = SubResource("BoxMesh_wall_v")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PerimeterWalls/WallWest"]
+shape = SubResource("BoxShape3D_wall_v")
+
+[node name="PerimeterRuins" type="Node3D" parent="."]
+
+[node name="PillarNE" parent="PerimeterRuins" instance=ExtResource("3_pillar")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 0, -32)
+
+[node name="PillarNW" parent="PerimeterRuins" instance=ExtResource("3_pillar")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -32, 0, -32)
+
+[node name="PillarSE" parent="PerimeterRuins" instance=ExtResource("3_pillar")]
+transform = Transform3D(-0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, -0.5, 32, 0, 32)
+
+[node name="PillarSW" parent="PerimeterRuins" instance=ExtResource("3_pillar")]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, -32, 0, 32)
+
+[node name="RubbleN" parent="PerimeterRuins" instance=ExtResource("4_rubble")]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 16, 0, -34.5)
+
+[node name="RubbleS" parent="PerimeterRuins" instance=ExtResource("4_rubble")]
+transform = Transform3D(-1.2, 0, 0, 0, 1.2, 0, 0, 0, -1.2, -18, 0, 34.5)
+
+[node name="RubbleE" parent="PerimeterRuins" instance=ExtResource("4_rubble")]
+transform = Transform3D(0, 0, 1.2, 0, 1.2, 0, -1.2, 0, 0, 34.5, 0, 15)
+
+[node name="RubbleW" parent="PerimeterRuins" instance=ExtResource("4_rubble")]
+transform = Transform3D(0, 0, -1.2, 0, 1.2, 0, 1.2, 0, 0, -34.5, 0, -16)
+
+[node name="Braziers" type="Node3D" parent="."]
+
+[node name="BrazierNE" parent="Braziers" instance=ExtResource("2_brazier")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 0, -33)
+
+[node name="BrazierNW" parent="Braziers" instance=ExtResource("2_brazier")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 0, -33)
+
+[node name="BrazierSE" parent="Braziers" instance=ExtResource("2_brazier")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 0, 33)
+
+[node name="BrazierSW" parent="Braziers" instance=ExtResource("2_brazier")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 0, 33)
+
+[node name="BrazierN" parent="Braziers" instance=ExtResource("2_brazier")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -34)
+
+[node name="BrazierS" parent="Braziers" instance=ExtResource("2_brazier")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 34)
+
+[node name="BrazierE" parent="Braziers" instance=ExtResource("2_brazier")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34, 0, 0)
+
+[node name="BrazierW" parent="Braziers" instance=ExtResource("2_brazier")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 0, 0)
+
+[node name="BrazierInner1" parent="Braziers" instance=ExtResource("2_brazier")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 14)
+
+[node name="BrazierInner2" parent="Braziers" instance=ExtResource("2_brazier")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 14)
+
+[node name="BrazierInner3" parent="Braziers" instance=ExtResource("2_brazier")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, -14)
+
+[node name="BrazierInner4" parent="Braziers" instance=ExtResource("2_brazier")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, -14)

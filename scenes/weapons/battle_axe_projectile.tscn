@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/weapons/battle_axe_projectile.gd" id="1_proj"]
+[ext_resource type="PackedScene" path="res://assets/models/battle_axe.glb" id="2_model"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_axe"]
+radius = 0.55
+
+[node name="BattleAxeProjectile" type="Area3D"]
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("1_proj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_axe")
+
+[node name="Model" type="Node3D" parent="."]
+
+[node name="AxeModel" parent="Model" instance=ExtResource("2_model")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)

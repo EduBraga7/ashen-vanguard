@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/weapons/flask_projectile.gd" id="1_proj"]
+[ext_resource type="PackedScene" path="res://assets/models/fire_flask.glb" id="2_model"]
+
+[node name="FlaskProjectile" type="Node3D"]
+script = ExtResource("1_proj")
+
+[node name="Model" type="Node3D" parent="."]
+
+[node name="FlaskModel" parent="Model" instance=ExtResource("2_model")]
+transform = Transform3D(1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, 0, 0, 0)
